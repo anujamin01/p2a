@@ -21,14 +21,6 @@ void read_command(char cmd[], char *par[])
       break; // reached end of the line
   }
 
-  /*
-  int c = fgetc(stdin);
-  line[count++] = char(c)
-  while (c != '\n'){
-    c = fgetc(stdin);
-    line[count++] = char(c);
-  }
-  */
   if (count == 1)
     return; // read nothing
   pch = strtok(line, " \n");
@@ -42,12 +34,7 @@ void read_command(char cmd[], char *par[])
 
   // 1st word is command
   strcpy(cmd, array[0]);
-  /*
-  if (array[1] && array[1][0] == '-')
-  {
-    strcpy(cmd, array[])
-  }
-  */
+
   // grab the paramaters as well
   for (int j = 0; j < i; j++)
   {
@@ -56,28 +43,28 @@ void read_command(char cmd[], char *par[])
   par[i] = NULL; // null terminate parameters list
 }
 
-void type_prompt()
-{
-  static int first_time = 1;
-  if (first_time)
-  {
-    // clear screen for the 1st time
-    const char *CLEAR_SCREEN_ANSI = " \e[1;1H\e[2J";
-    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
-    first_time = 0;
-  }
-  printf("wish> "); // display prompt
-}
+int main(int argc, char* argv[]){
+    int batch_mode = 0; // default is interactive mode
+    char* filename;
+    FILE *fp;
+    // TODO: get batch mode working 
 
-int main()
-{
+    // check if we're in batch mode or not
+    if (argc == 2){
+      filename = argv[1];
+      fp = fopen(filename, "r");
+      if (!(fp)){
+        printf("Error: unable to open file");
+        exit(1);
+      }
+      batch_mode = 1;
+    }
 
   char cmd[256], command[256], *parameters[256];
-  char *envp[] = {(char *)"PATH=/bin", 0}; // environment variable
 
   while (1)
   { // repeats forever
-    type_prompt();
+    printf("wish> "); // display prompt
     read_command(command, parameters); // read the input from the terminal
     int retval = fork();
     if (retval == 0)
