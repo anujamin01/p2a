@@ -4,43 +4,31 @@
 #include <unistd.h>
 #include <string.h>
 
-void read_command(char cmd[], char *par[])
+void read_command(char cmd[], char *args[])
 {
-  char line[1024];
-  int count = 0, i = 0, j = 0;
-  char *array[100], *pch;
+  char *parsedCommands[100], *currCommand, *line;
+  //char line[1024];
+  size_t bufsize = 0;
+  // read command from the line
+  getline(&line,&bufsize,stdin);
 
-  // read one line of the command
-
-  for (;;)
-  {
-    // getline 
-    int c = fgetc(stdin);
-    line[count++] = (char)c;
-    if (c == '\n')
-      break; // reached end of the line
+  // break command into words
+  int idx = 0;
+  currCommand = strtok(line, " \n");
+  while (currCommand != NULL){
+    parsedCommands[idx] = strdup(currCommand);
+    idx++;
+    currCommand = strtok(NULL, " \n");
   }
 
-  if (count == 1)
-    return; // read nothing
-  pch = strtok(line, " \n");
+  // put 1st command into cmd
+  strcpy(cmd, parsedCommands[0]);
 
-  // parse the line into words
-  while (pch)
-  {
-    array[i++] = strdup(pch);
-    pch = strtok(NULL, " \n");
+  // grab the arguments 
+  for(int a = 1; a < idx; a++){
+    args[a] = parsedCommands[a]; 
   }
-
-  // 1st word is command
-  strcpy(cmd, array[0]);
-
-  // grab the paramaters as well
-  for (int j = 0; j < i; j++)
-  {
-    par[j] = array[j];
-  }
-  par[i] = NULL; // null terminate parameters list
+  args[idx] = NULL; // terminate the args 
 }
 
 int main(int argc, char* argv[]){
