@@ -1,8 +1,12 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
+
+// global char path
+char* path[100];
 
 void read_command(char cmd[], char *args[])
 {
