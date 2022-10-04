@@ -10,34 +10,68 @@ char* path[100];
 
 // TODO: get bash_redirection working
 int bash_redirection(char* line, char* redir){
+  char* raw_args[100];
   char* args[100];
   char* destination;
   char* currCommand;
-  // int index = (int)(redir - line);
-  // printf("%d\n", index);
-  // printf("%s\n", (line + index));
-  // parse the line to get the command and arguments
+  char* raw_command;
+  char binPath[100];
+  FILE *fp;
+  raw_command = strtok(line,">");
   int idx = 0;
-  currCommand = strtok(line, " \t\r\a\n");
-  while (currCommand != NULL)
-  {
-    printf("currLine: %s\n", currCommand);
-    args[idx] = strdup(currCommand);
-    //printf("%s\n",args[idx]);
+  while (raw_command != NULL){
+    raw_args[idx] = raw_command;
+    raw_command = strtok(NULL,">");
     idx++;
-    currCommand = strtok(NULL, " \t\r\a\n");
   }
-  // move past the '>' char
-  currCommand = strtok(NULL, " \t\r\a\n");
-  // grab the destination 
-  if (currCommand == NULL){
-    printf("Missing destination file\n");
+  raw_args[idx] = NULL; // terminate the raw_arguments
+  
+  if (idx != 2){
+    printf("Error redirection has invalid number of arguments\n");
     return -1;
-  } else{
-    currCommand = strtok(NULL, " \t\r\a\n");
-    strcpy(destination, currCommand);
   }
-  printf("Destination: %s\n", destination);
+  idx = 0;
+  currCommand = raw_args[0];
+  // put command arguments into the arg
+  raw_command = strtok(currCommand, " \t\r\a\n");
+  while (raw_command != NULL){
+    args[idx] = raw_command;
+    idx++;
+    raw_command = strtok(NULL, " \t\r\a\n"); 
+  }
+  args[idx] = NULL;
+
+  destination = raw_args[1];
+  destination = strtok(destination, " \t\r\a\n");
+  // printf("%s\n", destination);
+  // iterate through all paths and try to execute a bin command
+  // iterate through all paths and try to execute a bin command
+  int x = 0;
+  while (path[x] != NULL){
+    // execute the call
+    int pid = fork();
+    //printf("pid -->%d\n",pid);
+    //printf("what is happening");
+    if (pid == 0){
+        char* cmd = args[0];
+        strcpy(binPath, path[x]);
+        strcat(binPath, "/");
+        //printf("%s\n", binPath);
+        strcat(binPath, args[0]);
+        //printf("%s\n", binPath);
+        fp = fopen(destination, "w");
+        int oldfd = fileno(fp);
+        dup2(oldfd,STDOUT_FILENO); 
+        execv(binPath,args);
+        // error has occured with the bin path 
+        printf("ERROR: Could not execute %s\n", cmd);
+        //exit(1);
+    } else{
+      int status;
+      waitpid(pid,&status,0);
+    }
+    x++;
+  }
   return 1;
 }
 
@@ -48,6 +82,7 @@ int read_command(char *args[], FILE *fp)
   size_t buf_size;
   int read_args;
   char *redirect_char = NULL;
+  char* binPth;
   // grab line
   //fflush(stdin);
   read_args = getline(&line, &buf_size, fp);
@@ -153,7 +188,7 @@ int read_command(char *args[], FILE *fp)
 
 int bin_cmd_helper(char* args[]){
   //char *parsedParams[100];
-  char* binPath;
+  char binPath[100];
   // cannot execute command ie no arguments or path specified
   if (path[0] == NULL || args == NULL || args[0] == NULL){
     return -1;
@@ -168,13 +203,18 @@ int bin_cmd_helper(char* args[]){
     //printf("what is happening");
     if (pid == 0){
         char* cmd = args[0];
+        printf("%s\n", cmd);
         // try executing the bin command
         //printf("%s\n",cmd);
         //strcat(binPath, cmd);
         //printf("%s\n",binPath);
         printf("I'm the child");
-
-        execv("/bin/ls",args);
+        strcpy(binPath, path[x]);
+        strcat(binPath, "/");
+        printf("%s\n", binPath);
+        strcat(binPath, args[0]);
+        printf("%s\n", binPath);
+        execv(binPath,args);
 
         // error has occured with the bin path 
         printf("ERROR: Could not execute %s\n", cmd);
@@ -263,7 +303,7 @@ int main(int argc, char *argv[])
       { // if we called in a built in command then continue the loop (exit, path,  etc.)
         continue;
       } else { // need to execute a bin executable such as ls
-        printf("reached else case\n");
+        // printf("reached else case\n");
         int run_bin_cmd = bin_cmd_helper(arguments);
         //printf("%d\n", run_bin_cmd);
         if (run_bin_cmd == -1){ // some error occured so go back to top of loop 

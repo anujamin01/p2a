@@ -1,0 +1,13 @@
+total 68
+-rwxrwxr-x 1 anuj anuj 16824 Oct  3 16:04 a.out
+-rw-rw-r-- 1 anuj anuj    31 Oct  3 16:05 Makefile
+-rw-rw-r-- 1 anuj anuj   568 Oct  4 13:34 out
+-rw-rw-r-- 1 anuj anuj     0 Oct  4 14:03 output.txt
+-rw-rw-r-- 1 anuj anuj     0 Oct  4 14:03 out.txt
+-rw-rw-r-- 1 anuj anuj    20 Sep 28 18:49 README.md
+drwxrwxr-x 3 anuj anuj  2048 Sep 29 17:15 testDir
+-rwxrwxr-x 1 anuj anuj 16576 Oct  1 13:03 wish
+-rwxrwxr-x 1 anuj anuj 17000 Oct  4 14:03 wish2
+-rw-rw-r-- 1 anuj anuj  8122 Oct  4 14:03 wish2.c
+-rw-rw-r-- 1 anuj anuj  1979 Oct  1 13:03 wish.c
+drwxrwxr-x 3 anuj anuj  2048 Sep 30 12:56 wother

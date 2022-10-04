@@ -1,0 +1,11 @@
+total 67
+-rwxrwxr-x 1 anuj anuj 16824 Oct  3 16:04 [0m[01;32ma.out[0m*
+-rw-rw-r-- 1 anuj anuj    31 Oct  3 16:05 Makefile
+-rw-rw-r-- 1 anuj anuj     0 Oct  4 13:34 out
+-rw-rw-r-- 1 anuj anuj    20 Sep 28 18:49 README.md
+drwxrwxr-x 3 anuj anuj  2048 Sep 29 17:15 [01;34mtestDir[0m/
+-rwxrwxr-x 1 anuj anuj 16576 Oct  1 13:03 [01;32mwish[0m*
+-rwxrwxr-x 1 anuj anuj 16832 Oct  4 13:34 [01;32mwish2[0m*
+-rw-rw-r-- 1 anuj anuj  7522 Oct  4 13:34 wish2.c
+-rw-rw-r-- 1 anuj anuj  1979 Oct  1 13:03 wish.c
+drwxrwxr-x 3 anuj anuj  2048 Sep 30 12:56 [01;34mwother[0m/
