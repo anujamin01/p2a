@@ -1,0 +1,8 @@
+path /bin
+cd testDir
+ls 
+ls -ls
+cd ..
+if ls -l == 1 then ls fi
+exit
+
