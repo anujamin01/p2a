@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -38,7 +37,7 @@ int run_helper(char *cmd, char *args[])
       //printf("Didn't execute");
       // error has occured with the bin path
       handle_error();
-      printf("ERROR: Could not execute %s\n", cmd);
+      //printf("ERROR: Could not execute %s\n", cmd);
       // exit(1);
     }
     else
@@ -73,7 +72,7 @@ int if_cmd_helper(char *args[])
   if (size < 7)
   {
     handle_error();
-    printf("Error, invalid # args");
+    //printf("Error, invalid # args");
     return -1;
   }
   int hasIf = -1;
@@ -106,7 +105,7 @@ int if_cmd_helper(char *args[])
   if (hasIf == -1 || hasFi == -1 || hasThen == -1 || hasComparator == -1)
   {
     handle_error();
-    printf("Error, invalid args");
+    //printf("Error, invalid args");
     return -1;
   }
   //printf("%d\n,", hasIf);
@@ -249,7 +248,7 @@ int bash_redirection(char *line, char *redir)
       execv(binPath, args);
       // error has occured with the bin path
       handle_error();
-      printf("ERROR: Could not execute %s\n", cmd);
+      //printf("ERROR: Could not execute %s\n", cmd);
       // exit(1);
     }
     else
@@ -278,7 +277,7 @@ int read_command(char *args[], FILE *fp)
   if (read_args == -1)
   {
     handle_error();
-    printf("Nothing to read");
+    //printf("Nothing to read");
     return -1;
   }
   int line_length = strlen(line);
@@ -337,7 +336,7 @@ int read_command(char *args[], FILE *fp)
     if (args[1] != NULL)
     {
       handle_error();
-      printf("Error: exit has invalid number of arguments\n");
+      //printf("Error: exit has invalid number of arguments\n");
       return -1;
     }
     exit(0);
@@ -347,7 +346,7 @@ int read_command(char *args[], FILE *fp)
     if (idx != 2)
     { // if we have too many or too little arguments throw error
       handle_error();
-      printf("Error: cd has invalid number of arguments\n");
+      //printf("Error: cd has invalid number of arguments\n");
       return -1;
     } else
     {
@@ -359,7 +358,7 @@ int read_command(char *args[], FILE *fp)
       else
       {
         handle_error();
-        printf("Error: unable to change directories");
+        //printf("Error: unable to change directories");
         return -1;
       }
     }
@@ -421,7 +420,7 @@ int bin_cmd_helper(char *args[])
 
       // error has occured with the bin path
       handle_error();
-      printf("ERROR: Could not execute %s\n", cmd);
+      //printf("ERROR: Could not execute %s\n", cmd);
       // exit(1);
     }
     else
@@ -451,7 +450,7 @@ int main(int argc, char *argv[])
     if (!(fp))
     {
       handle_error();
-      printf("Error: unable to open file");
+      //printf("Error: unable to open file");
       exit(1);
     }
     batch_mode = 1;
