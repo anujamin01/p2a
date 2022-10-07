@@ -493,10 +493,6 @@ int main(int argc, char *argv[])
     handle_error();
     exit(1);
   } 
-  if(argc < 1){
-    handle_error();
-    exit(1);
-  }
   if (argc == 2)
   {
     filename = argv[1];
