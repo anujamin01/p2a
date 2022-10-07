@@ -4,5 +4,6 @@ ls
 ls -ls
 cd ..
 if ls -l == 1 then ls fi
+ls > out.txt
 exit
 
